@@ -1,6 +1,9 @@
 Learning Go
 ===========
 
+## Assumptions ##
+
+It is assumed you already know some Unix and Python.
 
 ## Directory Structure ##
 
@@ -11,12 +14,15 @@ You home directory should look something like this:
 	Downloads/
 	Work/
 		bin/
-		datacore/
 		lib/
-		spitfire/
-		
+		setup/
 	go/
-	
+		bin/
+		pkg/
+		src@ --> 
+
+
+totally unfinished document
 
 package statement is first line of code
 all files in the same directory have the same package statement
