@@ -9,7 +9,7 @@ Conda.
 ## Installing Go ##
 
 We use Conda to manage our golang distribution. To create a new environment for
-go development start in base and then make a new enviornment:
+Go development start in base and then make a new enviornment:
 
 	conda create --name godev
 	conda activate godev
@@ -17,7 +17,7 @@ go development start in base and then make a new enviornment:
 
 ## $HOME/go ##
 
-By default, go will create a `go` directory in your home directory with the
+By default, Go will create a `go` directory in your home directory with the
 following directory structure.
 
 	go/
@@ -40,7 +40,7 @@ Start by making a new directory in your `Code` directory.
 	mkdir hellogo
 
 Initialize the module by providing its location. This creates a file called
-`go.mod` whose contents are used for go administrative tasks. We will see more
+`go.mod` whose contents are used for Go administrative tasks. We will see more
 a bit later.
 
 	go mod init github.com/iankorf/hellogo
@@ -273,11 +273,11 @@ mean slices.
 Arrays can be created with several different syntaxes.
 
 ```
-	var a []int            // empty array with initial size 0
-	b := make([]int, 0)    // empty array with initial size 0
-	c := make([]int, 3)    // array containing 3 zeroes
-	d := make([]int, 3, 4) // as above, but a hard limit of 4 values
-	e := []int{1, 2, 3}    // array containging [1, 2, 3]
+var a []int            // empty array with initial size 0
+b := make([]int, 0)    // empty array with initial size 0
+c := make([]int, 3)    // array containing 3 zeroes
+d := make([]int, 3, 4) // as above, but a hard limit of 4 values
+e := []int{1, 2, 3}    // array containging [1, 2, 3]
 ```
 
 Even though arrays (ok, actually slices) are dynamic, you can set the capacity
@@ -296,12 +296,12 @@ Maps are like Python dictionaries or Perl hashes. I don't know why there is the
 `make()` syntax when the composite literal is easier.
 
 ```
-	m := make(map[string]int, 0) // empty map
-	n := map[string]int{}        // empty map
-	o := map[string]bool{        // initialized map
-		"go": true,
-		"py": false,
-	}
+m := make(map[string]int, 0) // empty map
+n := map[string]int{}        // empty map
+o := map[string]bool{        // initialized map
+	"go": true,
+	"py": false,
+}
 ```
 
 ### Functions ###
