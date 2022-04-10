@@ -114,11 +114,9 @@ style.
 
 Note that the initial comment did not get separated from the `package`
 statement. That's because comments that are directly in front of top-line
-statements become documentation. Check it out.
+statements are special: they are documentation. Here's a taste of that.
 
 	go doc
-
-We will explore the documentation system more later.
 
 ## Go commands ##
 
@@ -128,38 +126,210 @@ Frequently used
 
 Sometimes used
 
-+ `go install`: compile and install program in `~/go/bin`
-+ `go fmt`: reformat code before `git push`
 + `go doc`: get documentation
++ `go fmt`: reformat code before `git push`
++ `go install`: compile and install program in `~/go/bin`
++ `go test`: run your unit tests
 
 Infrequently used
 
 + `go mod init`: create a new `mod.go` file
 + `go mod tidy`: update your `mod.go` file
 
-Not really needed
+Not usually needed
 
 + `go build` compile executable
 + `go clean` remove executable
 
-
 ## Language Basics ##
 
-### Variables ###
+### Operators ###
 
-### Conditonals and Loops ###
+The Go operators are mostly the same as Python. Like many languages, Go offers
+`++` and `--` for increasing or decreasing by one. Very unlike Python, Go uses
+`*` and `&`, like C for pointers and references. More on this later. There is
+also a shortcut assignment operator `:=`.
+
+### Varible Scope ###
+
+Unlike Python, which uses function scope, Go uses lexical scope. Thank god.
+
+### Simple Variables ###
+
+Unlike Python, Go variables are all typed. When you create a variable, you must
+also assign its type. There are a lot of flavors of integers based on their
+size, and whether or not they are signed or not. Some of these have convenient
+names like `byte` (which is like the `char` type in C) and `rune` (which is
+used for unicode). There are also two flavors of floats. Most of the time, you
+will simply use `int` for integers and `float64` for floats.
+
+	var b bool          // boolean
+	var c byte          // unsigned 8-bit integer
+	var r rune          // 32-bit integer
+	var i int           // integer
+	var f float64       // floating point
+	var s string        // string
+	fmt.Println(b, c, r, i, f, s)
+
+Variables that aren't assigned an initial value, like those above, are
+automatically set to something zero-ish (strings are empty, bools are false).
+
+Although the code above shows the use of `var` to declare variables, this is an
+uncommon usage. Most of the time we use the `:=` operator to assign a variable
+both a type and value. This variable type is generally implicit from the
+assignment.
+
+	j := 1               // int
+	x := 1.0             // float64
+	t := "hello world"   // string
+
+Variables can be created and assigned in a list context. Since functions can
+return multiple values (see below), this syntax is quite common.
+
+	k, v := "key", 1.0   // string, float64
+
+Variables can be declared as a constant (read-only). Here, you use the `=`
+operator even though you are doing assignment and declaration at the same time.
+
+	const AUTHOR = "Ian"
+	const LINE = 80
+
+Strings in Go are immutable, just like in Python. However, you can make
+reassignments that sort of look like you are making changes.
+
+	var s string // declare an empty string
+	s += "A"
+	s += "C"
+	fmt.Println(s)
+
+Go has a slice operator very much like Python. You can use blanks for implicit
+start and end, but unlike Python you cannot use negative indices or indicies
+that are out of bounds.
+
+	seq := "ACGT"
+	fmt.Println(seq[0:])   // ACGT
+	fmt.Println(seq[0:1])  // A
+	fmt.Println(seq[0])    // 65 - fmt.Println() does ASCII with singles
+
+### Conditonals ###
+
+There is no `elif` in Go. Go if-else syntax is mostly like C.
+
+	if condition1 {
+		stuff1
+	} else if condition2 {
+		stuff2
+	} else {
+		whatever
+	}
+
+Unlike Python, Go has a `switch` statement. The Go `switch` is a little
+different from `C` in that you don't need `break` statements because there is
+no fall-through. Use it if you like, but there's nothing wrong with chaining
+if-else.
+
+	switch j {
+	case 0:
+		fmt.Println("zero")
+	case 1:
+		fmt.Println("one")
+	default:
+		fmt.Println("other")
+	}
+
+### Loops ###
+
+The Go `for` loop has a few different forms.
+
+	seq := "ACGT"
+
+	// C-like syntax
+	for i := 0; i < len(seq); i++ {
+		fmt.Println(i, seq[i])
+	}
+
+	// Python-like syntax for containers
+	for i, v := range(seq) {
+		fmt.Println(i, v)
+	}
+
+	// while-like syntax
+	i := 0
+	for i < 3 {
+		fmt.Println(i)
+		i++
+	}
+
+	for {} // endless loop
+
+### Arrays and Slices ###
+
+Both Python and Go have fixed-length arrays that we never use, so let's ignore
+them. In Python, dynamic arrays are called _lists_ and in Go they are called
+_slices_. I find it confusing that the word "slice" is used both for an
+operator and a dynamic array. As a result, I'm just going to use "array" to
+mean slices.
+
+Arrays can be created with several different syntaxes.
+
+```
+	var a []int            // empty array with initial size 0
+	b := make([]int, 0)    // empty array with initial size 0
+	c := make([]int, 3)    // array containing 3 zeroes
+	d := make([]int, 3, 4) // as above, but a hard limit of 4 values
+	e := []int{1, 2, 3}    // array containging [1, 2, 3]
+```
+
+Even though arrays (ok, actually slices) are dynamic, you can set the capacity
+as shown in `d` above. All of the other arrays can grow infinitely. If you want
+to append to an array, you use the `append()` function. It looks a little
+different from Python for reasons that will become apparent later.
+
+	a = append(a, 4)
+
+As you might expect, there is a `strings.Join()` to turn arrays into strings
+and a `strings.Split()` to turn strings into arrays.
+
+### Maps ###
+
+Maps are like Python dictionaries or Perl hashes. I don't know why there is the
+`make()` syntax when the composite literal is easier.
+
+```
+	m := make(map[string]int, 0) // empty map
+	n := map[string]int{}        // empty map
+	o := map[string]bool{        // initialized map
+		"go": true,
+		"py": false,
+	}
+```
 
 ### Functions ###
 
-### Arrays and Maps ###
+multiple return values
 
 ### File I/O ###
+
+canonical form
 
 ### CLI ###
 
 flag
 
 ### Standard Libraries ###
+
++ bufio
++ gzip
++ flag
++ fmt
++ math rand
++ path
++ reflect
++ regexp
++ sort
++ strings
++ text scanner
++ time
 
 ### Other Libraries ###
 
