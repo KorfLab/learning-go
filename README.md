@@ -303,7 +303,9 @@ e := []int{1, 2, 3}    // array containging [1, 2, 3]
 Even though arrays (ok, actually slices) are dynamic, you can set the capacity
 as shown in `d` above. All of the other arrays can grow infinitely. If you want
 to append to an array, you use the `append()` function. It looks a little
-different from Python for reasons that will become apparent later.
+different from Python with the array on both sides of the function call. The
+reason for this is because the memory location may have to change in order to
+accomodate resizing. It's not as pretty as Python.
 
 ```
 a = append(a, 4)
@@ -394,21 +396,60 @@ and outputs, pass structs. If you want to pass a variable number of arguments,
 like `fmt.Println()`, you _can_ make a variadic fuction, but _should_ you?
 Given that it's not explained here... probably not.
 
-Closures...
+Note: something about closures and recursion?
 
+### Pointers and References ###
 
-### File I/O ###
+One of the big differences between Go and Python is references and pointers.
+The address-of operator, `&` provides the memory address of a variable.
 
-unfinished
+```
+i := 1
+fmt.Println(i, &i) // 0xc000014110
+```
 
-## Pointers and Reference ###
+The variable `i` has a value of 1, but its memory address is that weird
+hexidecimal thing. You can store the memory address of a variable in another
+variable. For example, in the code below `iptr` contains the address of `i`.
+What type of variable holds the memory address of another variable? A pointer.
+It is common for pointers to have some kind of `ptr` suffix.
 
-unfinished
+```
+var iptr *int = &i
+fmt.Println(iptr) // some weird hex value
+```
 
+Every variable type is paired with a pointer specific to that type. You cannot
+use `*p` for both pointers to integers and pointers to floating points, which
+is why people don't use `p` as the name of the variable.
 
-### CLI ###
+Where you see pointers and references used most frequently is when you want to
+pass a variable to a function and have the function modify that variable. Does
+it sound dangerous to have functions with side-effects that might change the
+input arguments? It is, which is why it should generally be avoided. However,
+there are times when this is really useful (e.g. recursion).
 
-unfinished
+The following function takes a pointer to integer, `*int`, as an argument and
+modifies the value by _dereferencing_ the pointer with the `*` operator. Yes,
+this is also the multiplication operator, but the context is different as there
+is one operand, not two. Note that the function has no return value.
+
+```
+func modi(iptr *int) {
+	*iptr++
+}
+```
+
+Let's see what happens when we call it.
+
+```
+i := 1
+fmt.Println(i) // 1
+modi(&i)
+fmt.Println(i) // 2
+```
+
+The value at the underyling memory address is incremented by one.
 
 ### OOP: Structs and Methods ###
 
@@ -479,23 +520,81 @@ s.setSeq("ACGT")        // no
 fmt.Println(s.getSeq()) // no
 ```
 
+### Errors ###
 
-### Standard Libraries ###
+The error handling mechanism in Go is particularly clean. There is no
+try-catch. Instead, functions return errors as their final argument. Let's look
+at an example. Suppose you want a function that checks if an array of
+probabilities sums to 1.0 or close enough. The function should return `true` or
+`false`. However, if someone puts a negative number in there, the function
+should report some kind of error. The `panic()` function kills the program and
+reports the error.
 
-+ bufio
-+ gzip
-+ flag
-+ fmt
-+ math rand
-+ path
-+ reflect
-+ regexp
-+ sort
-+ strings
-+ text scanner
-+ time
+```
+func sumToOne(prob []float64, tol float64) (bool, error) {
+	s := 0.0
+	for _, p := range(prob) {
+		if p < 0 {
+			return false, errors.New("error: negative number")
+		}
+		s += p
+	}
+	if math.Abs(s -1.0) < tol {
+		return true, nil
+	} else {
+		return false, nil
+	}
+}
+
+func main() {
+	p := []float64{0.5, 0.6, -0.1}
+	if r, e := sumToOne(p, 0.001); e != nil {
+		panic(e)
+	} else {
+		fmt.Println(r, e)
+	}
+}
+```
+
+### Random Numbers ###
+
+### Sorting ###
+
+### Commandline Arguments ###
+
+Use flag
+
+### File I/O ###
+
+Line reading & processing
+Tabular files
+JSON files
+
+### Unit Tests ###
+
+Should also talk about functional tests
 
 ## Example Programs ##
 
-some more complex examples than hello world
+Various complete programs
+
+## Advanced Topics ##
+
++ Benchmarking
++ Multithreading
+	+ Go Routines
+	+ Channels
++ OOP
+	+ Interfaces
+	+ Embeddings
++ OS
+	+ Path
+	+ Environment
+	+ Exec & Pipe
+	+ Temp files
++ Regular expressions
+
+
+
+
 
