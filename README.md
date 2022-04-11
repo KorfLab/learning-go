@@ -451,11 +451,14 @@ fmt.Println(i) // 2
 
 The value at the underyling memory address is incremented by one.
 
-### OOP: Structs and Methods ###
+### SOP: Structs and Methods ###
 
-Go's version of object-oriented programming is based on structs and methods.
-The Go struct is very much like C except that you don't have to typedef it to
-give it a proper name.
+Go has several object-oriented programming features. I don't really love
+inheritence, encapsulation, and such, but I do like method syntax. Using
+structs and methods one can do struct-oriented programming, which I'm calling
+SOP to align with "standard operating procedures". Meaning: use structs and
+methods but think twice about interfaces and embeddings. The Go struct is very
+much like C except that you don't have to typedef it to give it a proper name.
 
 ```
 type fasta struct {
