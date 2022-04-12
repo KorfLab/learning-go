@@ -497,7 +497,7 @@ the pointer-to-struct type. Let's say we want to provide a pretty-printer for
 our fasta struct.
 
 ```
-func (fa *fasta) pretty() {
+func (fa *fasta) Pretty() {
     fmt.Print(">")
     fmt.Println(fa.Def)
     fmt.Println(fa.Seq)
@@ -508,7 +508,7 @@ We can now use the convenient object syntax.
 
 ```
 s := newFasta("Ian", "ATAGCGAAT")
-s.pretty()
+s.Pretty()
 ```
 
 Now that you know about methods, you may be thinking that you should provide
@@ -519,8 +519,8 @@ fields and access them directly.
 s.Seq = "ACGT"     // yes
 fmt.Println(s.Seq) // yes
 
-s.setSeq("ACGT")        // no
-fmt.Println(s.getSeq()) // no
+s.SetSeq("ACGT")        // no
+fmt.Println(s.GetSeq()) // no
 ```
 
 ### Errors ###
