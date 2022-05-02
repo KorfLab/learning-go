@@ -1,12 +1,16 @@
 Learning Go
 ===========
 
-## Assumptions ##
+
+Assumptions
+-----------
 
 It is assumed you already know some Unix and Python and are familiar with
 Conda.
 
-## Installing Go ##
+
+Installing Go
+-------------
 
 We use Conda to manage our golang distribution. To create a new environment for
 Go development start in base and then make a new enviornment:
@@ -15,7 +19,9 @@ Go development start in base and then make a new enviornment:
 	conda activate godev
 	mamba install -c conda-forge go
 
-## $HOME/go ##
+
+$HOME/go
+--------
 
 By default, Go will create a `go` directory in your home directory with the
 following directory structure.
@@ -32,7 +38,9 @@ You will see some suggestions to put a `src` directory inside your `go`
 directory and do development there, but we will be using our `Code` directory
 as usual.
 
-## Hello Go ##
+
+Hello Go
+--------
 
 Start by making a new directory in your `Code` directory.
 
@@ -120,7 +128,9 @@ statements are special: they are documentation. Here's a taste of that.
 
 	go doc
 
-## Go commands ##
+
+Go commands
+-----------
 
 Frequently used
 
@@ -143,20 +153,20 @@ Not usually needed
 + `go build` compile executable
 + `go clean` remove executable
 
-## Language Basics ##
 
-### Operators ###
+Operators
+---------
 
 The Go operators are mostly the same as Python. Like many languages, Go offers
 `++` and `--` for increasing or decreasing by one. Very unlike Python, Go uses
 `*` and `&`, like C for pointers and references. More on this later. There is
-also a shortcut assignment operator `:=`.
+also a shortcut assignment operator `:=` that is used very frequently.
 
-### Varible Scope ###
+
+Variables
+----------------
 
 Unlike Python, which uses function scope, Go uses lexical scope. Thank god.
-
-### Simple Variables ###
 
 Unlike Python, Go variables are all typed. When you create a variable, you must
 also assign its type. There are a lot of flavors of integers based on their
@@ -225,7 +235,9 @@ fmt.Println(seq[0:1])  // A
 fmt.Println(seq[0])    // 65 - fmt.Println() does ASCII with singles
 ```
 
-### Conditonals ###
+
+Conditonals
+-----------
 
 There is no `elif` in Go. Go if-else syntax is mostly like C.
 
@@ -255,7 +267,8 @@ default:
 }
 ```
 
-### Loops ###
+Loops
+-----
 
 The Go `for` loop has a few different forms.
 
@@ -282,7 +295,9 @@ for i < 3 {
 for {} // endless loop
 ```
 
-### Arrays and Slices ###
+
+Arrays and Slices
+-----------------
 
 Both Python and Go have fixed-length arrays that we never use, so let's ignore
 them. In Python, dynamic arrays are called _lists_ and in Go they are called
@@ -314,7 +329,8 @@ a = append(a, 4)
 As you might expect, there is a `strings.Join()` to turn arrays into strings
 and a `strings.Split()` to turn strings into arrays.
 
-### Maps ###
+Maps / Dictionaries
+-------------------
 
 Maps are like Python dictionaries or Perl hashes. I don't know why there is the
 `make()` syntax when the composite literal is easier.
@@ -351,7 +367,9 @@ for key, val := range(count) {
 
 To delete keys, there is a `delete()` function.
 
-### Functions ###
+
+Functions
+---------
 
 Go function declaration is a little different from Python because you have to
 state the return value. In the example below, the `max()` function takes an
@@ -398,14 +416,16 @@ Given that it's not explained here... probably not.
 
 Note: something about closures and recursion?
 
-### Pointers and References ###
+
+Pointers and References
+-----------------------
 
 One of the big differences between Go and Python is references and pointers.
 The address-of operator, `&` provides the memory address of a variable.
 
 ```
 i := 1
-fmt.Println(i, &i) // 0xc000014110
+fmt.Println(i, &i) // 1 0xc000014110
 ```
 
 The variable `i` has a value of 1, but its memory address is that weird
@@ -451,7 +471,9 @@ fmt.Println(i) // 2
 
 The value at the underyling memory address is incremented by one.
 
-### SOP: Structs and Methods ###
+
+Structs and Methods
+-------------------
 
 Go has several object-oriented programming features. I don't really love
 inheritence, encapsulation, and such, but I do like method syntax. Using
@@ -523,7 +545,8 @@ s.SetSeq("ACGT")        // no
 fmt.Println(s.GetSeq()) // no
 ```
 
-### Errors ###
+Error Handling
+--------------
 
 The error handling mechanism in Go is particularly clean. There is no
 try-catch. Instead, functions return errors as their final argument. Let's look
@@ -559,45 +582,18 @@ func main() {
 }
 ```
 
-### Random Numbers ###
 
-### Sorting ###
+Unfinished
+----------
 
-### Commandline Arguments ###
+Need to flesh out the following sections
 
-Use flag
-
-### File I/O ###
-
-Line reading & processing
-Tabular files
-JSON files
-
-### Unit Tests ###
-
-Should also talk about functional tests
-
-## Example Programs ##
-
-Various complete programs
-
-## Advanced Topics ##
-
++ Random Numbers
++ Sorting
++ Commandline Arguments - flag
++ File I/O - line, CSV, JSON
++ OS - path, env, exec, pipe, tempfile
++ Testing
 + Benchmarking
 + Multithreading
-	+ Go Routines
-	+ Channels
-+ OOP
-	+ Interfaces
-	+ Embeddings
-+ OS
-	+ Path
-	+ Environment
-	+ Exec & Pipe
-	+ Temp files
 + Regular expressions
-
-
-
-
-
